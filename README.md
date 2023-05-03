@@ -5,7 +5,11 @@ The new generation story-oriented game engine
 
 # Overview
 
+
 The idea of the project is to create the new story-focused game engine. It should be as simple as Twine but with some additional features. Some features are:
-- 
+
+- Auto generation for emotion and animation metainformation for characters' speech lines.
+- Paraphrasing text sentences.
+
 
 # Features
