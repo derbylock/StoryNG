@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package sng;
+option go_package = "github.com/derbylock/snggcc";
+
+message ScriptPart {
+  repeated Character characters = 1;
+  repeated Location locations = 2;
+  repeated Passage passages = 3;
+  repeated Environment environments = 4;
+  repeated Action actions = 5;
+  repeated Dialogue dialogues = 6;
+  repeated Story stories = 7;
+}
+
+message OptionalString {
+  string text = 1;
+  LuaScript when = 2;
+}
+
+message Character {
+  string id = 1;
+  string name = 2;
+  repeated OptionalString description = 3;
+  bool player = 4;
+  repeated OptionalString tags = 5;
+  repeated Action actions = 6;
+  repeated CharacterStat stats = 7;
+  repeated Item items = 8;
+}
+
+message CharacterRef {
+  string id = 1;
+}
+
+message Story {
+  string id = 1;
+  Passage startPassage = 2;
+  repeated Character characters = 3;
+}
+
+message Passage {
+  string id = 1;
+  string name = 2;
+  Location location = 3;
+  repeated CharacterRef characters = 4;
+  repeated Environment environments = 5;
+  repeated Item items = 6;
+}
+
+message Environment {
+  string id = 1;
+  string name = 2;
+  repeated OptionalString description = 3;
+  repeated Action actions = 4;
+  repeated string flags = 5;
+  LuaScript when = 6;
+}
+
+message Item {
+  string id = 1;
+  string name = 2;
+  repeated OptionalString description = 3;
+  repeated Action actions = 4;
+  int32 count = 5;
+  int32 price = 6;
+  LuaScript when = 7;
+}
+
+message LuaScript {
+  string src = 1;
+}
+
+message Action {
+  string id = 1;
+  string text = 2;
+  repeated OptionalString description = 3;
+  repeated OptionalString tags = 4;
+
+  string passageID = 5;
+  Dialogue dialogue = 6;
+  LuaScript script = 7;
+  LuaScript when = 8;
+  CharacterActionFilter characterFilter = 9;
+}
+
+message Location {
+  string id = 1;
+  string name = 2;
+  repeated OptionalString description = 3;
+  LuaScript when = 4;
+}
+
+message DialogueLine {
+  string id = 1;
+  string CharacterRef = 2;
+  string text = 3;
+  repeated DialogueLine answers = 4;
+  LuaScript script_before = 5;
+  LuaScript script_after = 6;
+  LuaScript when = 7;
+}
+
+message Dialogue {
+  string id = 1;
+  repeated DialogueLine lines = 2;
+}
+
+message CharacterStat {
+  string id = 1;
+  string name = 2;
+  oneof value {
+    int64 intValue = 3;
+    float floatValue = 4;
+    bool boolValue = 5;
+  }
+}
+
+message CharacterActionFilter {
+  LuaScript filter = 1;
+}

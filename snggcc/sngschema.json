@@ -1,0 +1,386 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ScriptPart",
+  "type": "object",
+  "definitions": {
+    "OptionalString": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "when": {
+          "$ref": "#/definitions/LuaScript"
+        }
+      }
+    },
+    "LuaScript": {
+      "type": "object",
+      "properties": {
+        "src": {
+          "type": "string"
+        }
+      }
+    },
+    "Character": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OptionalString"
+          }
+        },
+        "player": {
+          "type": "boolean"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OptionalString"
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "stats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CharacterStat"
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Item"
+          }
+        }
+      },
+      "required": ["id"]
+    },
+    "CharacterRef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": ["id"]
+    },
+    "Story": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "startPassage": {
+          "$ref": "#/definitions/Passage"
+        },
+        "characters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Character"
+          }
+        }
+      },
+      "required": ["id"]
+    },
+    "Passage": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/definitions/Location"
+        },
+        "characters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CharacterRef"
+          }
+        },
+        "environments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Environment"
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Item"
+          }
+        }
+      },
+      "required": ["id"]
+    },
+    "Environment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OptionalString"
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "when": {
+          "$ref": "#/definitions/LuaScript"
+        }
+      },
+      "required": ["id"]
+    },
+    "Item": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OptionalString"
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "count": {
+          "type": "integer"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "when": {
+          "$ref": "#/definitions/LuaScript"
+        }
+      },
+      "required": ["id"]
+    },
+    "Action": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "description": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OptionalString"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OptionalString"
+          }
+        },
+        "passageID": {
+          "type": "string"
+        },
+        "dialogue": {
+          "$ref": "#/definitions/Dialogue"
+        },
+        "script": {
+          "$ref": "#/definitions/LuaScript"
+        },
+        "when": {
+          "$ref": "#/definitions/LuaScript"
+        },
+        "characterFilter": {
+          "$ref": "#/definitions/CharacterActionFilter"
+        }
+      },
+      "required": ["id"]
+    },
+    "Location": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OptionalString"
+          }
+        },
+        "when": {
+          "$ref": "#/definitions/LuaScript"
+        }
+      },
+      "required": ["id"]
+    },
+    "DialogueLine": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "CharacterRef": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "answers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DialogueLine"
+          }
+        },
+        "script_before": {
+          "$ref": "#/definitions/LuaScript"
+        },
+        "script_after": {
+          "$ref": "#/definitions/LuaScript"
+        },
+        "when": {
+          "$ref": "#/definitions/LuaScript"
+        }
+      },
+      "required": ["id"]
+    },
+    "Dialogue": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DialogueLine"
+          }
+        }
+      },
+      "required": ["id"]
+    },
+    "CharacterStat": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "intValue": {
+          "type": "integer"
+        },
+        "floatValue": {
+          "type": "number"
+        },
+        "boolValue": {
+          "type": "boolean"
+        }
+      },
+      "required": ["id"],
+      "oneOf": [
+        {
+          "required": ["intValue"]
+        },
+        {
+          "required": ["floatValue"]
+        },
+        {
+          "required": ["boolValue"]
+        }
+      ]
+    },
+    "CharacterActionFilter": {
+      "type": "object",
+      "properties": {
+        "filter": {
+          "$ref": "#/definitions/LuaScript"
+        }
+      }
+    }
+  },
+  "properties": {
+    "characters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Character"
+      }
+    },
+    "locations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Location"
+      }
+    },
+    "passages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Passage"
+      }
+    },
+    "environments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Environment"
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Action"
+      }
+    },
+    "dialogues": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Dialogue"
+      }
+    },
+    "stories": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Story"
+      }
+    }
+  }
+}

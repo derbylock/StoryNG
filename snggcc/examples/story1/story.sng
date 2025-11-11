@@ -1,0 +1,19 @@
+stories:
+    - id: main
+      startPassage:
+        id: myRoom
+passages:
+  - id: myRoom
+    name: My room
+    location:
+      id: myRoom
+      description:
+        - text: |
+            This is my room.
+            Not **super great** but good enough for me.
+characters:
+  - id: player
+    name: John
+    player: true
+    description:
+      - text: I am just a regular guy.
